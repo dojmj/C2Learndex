@@ -83,6 +83,9 @@ struct EnvelopeComponent: View {
                                     .onChanged { value in
                                         let newTranslation = lastOffset + value.translation.width //마지막 위치 + 이동거리
                                         if newTranslation > scissorOffset && newTranslation <= trackWidth {
+                                            if Int(newTranslation) / 15 != Int(scissorOffset) / 15 {
+                                                HapticManager.instance.impact(style: .light)
+                                            }
                                             scissorOffset = newTranslation
                                         }
                                     }
@@ -90,6 +93,8 @@ struct EnvelopeComponent: View {
                                         lastOffset = scissorOffset
                                         
                                         if scissorOffset > trackWidth * 0.9 {
+                                            HapticManager.instance.notification(type: .success
+                                            )
                                             withAnimation(.spring(response: 0.6, dampingFraction: 0.7)) {
                                                 scissorOffset = trackWidth
                                                 isCutCompleted = true

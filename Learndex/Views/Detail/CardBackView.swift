@@ -52,7 +52,7 @@ struct CardBackView: View {
                         .onChange(of: learner.memo) { oldValue, newValue in
                             // 마지막 글자가 엔터(\n)라면?
                             if newValue.last == "\n" {
-                                learner.memo.removeLast() // 1. 엔터값은 삭제하고 (줄바꿈 방지)
+                                learner.memo.removeLast() //엔터값은 삭제
                                 UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                             }
                         }
