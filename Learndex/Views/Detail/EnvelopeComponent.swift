@@ -26,11 +26,13 @@ struct EnvelopeComponent: View {
     var body: some View {
         ZStack {
             if learner.isOpened {
-                LearnerCardDetail(targetID: learner.id, selectedSession: $selectedSession)
+//                LearnerCardDetail(targetID: learner.id, selectedSession: $selectedSession)
+                LearnerCardView(learner: learner)
 
             } else {
                 if let learner = selectedLearner {
-                    LearnerCardDetail(targetID: learner.id, selectedSession: $selectedSession)
+//                    LearnerCardDetail(targetID: learner.id, selectedSession: $selectedSession)
+                    LearnerCardView(learner: learner)
                         .opacity(isCutCompleted ? 1.0 : 0.0)
                         .offset(y: isCutCompleted ? 0 : 250)
 //                        .scaleEffect(isCutCompleted ? 1.0 : 0.7)
