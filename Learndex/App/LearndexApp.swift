@@ -7,9 +7,12 @@
 
 import SwiftUI
 import SwiftData
+import MultipeerConnectivity
 
 @main
 struct Challenge2App: App {
+//    @StateObject private var multipeerService = MultipeerService()
+    
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Learner.self
@@ -27,6 +30,7 @@ struct Challenge2App: App {
         WindowGroup {
             ContentView()
                 .preferredColorScheme(.dark)
+//                .environmentObject(multipeerService)
         }
         
         .modelContainer(sharedModelContainer)

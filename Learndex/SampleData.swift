@@ -103,7 +103,7 @@ class SampleData {
                 interests: ["Swift", "iOS", "React", "Python"]
             ),
             Learner(
-                nickname: "woozy", name: "양창우", session: .morning,
+                nickname: "Woozy", name: "양창우", session: .morning,
                 imageName: "character6",
                 intro: "Young, Wild & Free",
                 introDetail: "정보통신 배경을 가지고 있으며 재밌는 일을 찾아 아카데미에 합류했습니다.",
@@ -389,7 +389,7 @@ class SampleData {
                 interests: ["사람 탐구", "작문"]
             ),
             Learner(
-                nickname: "Moo", name: "박지우", session: .morning,
+                nickname: "Moo", name: "박지우", session: .afternoon,
                 imageName: "character6",
                 intro: "큰 산을 소유하는 사주를 가진 무입니다.",
                 introDetail: "물리학과 인지과학 배경을 가졌으며, 당도 0% 공차를 즐기는 독특한 취향이 있습니다.",

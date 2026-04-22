@@ -13,6 +13,7 @@ class Learner {
     var id : UUID
     var nickname: String
     var name: String
+    var isMe: Bool = false
     var session: SessionType // 아래 만든 Enum 사용
     var imageName: String     // 사진 파일 이름
     var intro: String         // 한 줄 소개
@@ -21,11 +22,13 @@ class Learner {
     var isOpened: Bool //봉투 뜯었는지
     var strengths: [String]?    //도메인
     var interests: [String]?  //관심분야
+    var memo: String
 
     
     init(id: UUID = UUID(),
          nickname: String,
          name: String,
+         isMe: Bool = false,
          session: SessionType,
          imageName: String = "character1",
          intro: String = "Hi, I'm a learner!",
@@ -33,12 +36,14 @@ class Learner {
          isUnlocked: Bool = false,
          isOpened: Bool = false,
          strengths: [String]? = nil,
-         interests: [String]? = nil)
+         interests: [String]? = nil,
+         memo: String = "" )
     {
         
         self.id = id
         self.nickname = nickname
         self.name = name
+        self.isMe = isMe
         self.session = session
         self.imageName = imageName
         self.intro = intro
@@ -47,6 +52,7 @@ class Learner {
         self.isOpened = isOpened
         self.strengths = strengths
         self.interests = interests
+        self.memo = memo
     }
 }
 
