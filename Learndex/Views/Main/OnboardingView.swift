@@ -38,15 +38,10 @@ struct OnboardingView: View {
                     .cornerRadius(12)
                 //영문만 허용
                     .onChange(of: nickname) { _, newValue in
-                        // 1. 영문(a-z, A-Z)만 허용하도록 필터링
                         let filteredValue = newValue.filter { char in
                             char.isASCII && char.isLetter
                         }
                         
-                        // 2. 만약 필터링된 값이 현재 값과 다르다면 (즉, 한글/특수문자가 들어왔다면)
-                        if filteredValue != newValue {
-                            nickname = filteredValue
-                        }
                     }
                 
                 

@@ -11,59 +11,88 @@ import SwiftData
 struct MainTabView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var selectedFilter: SessionType = .morning
-    @Query(sort: \Learner.name) var learners: [Learner] //영구 저장된 도감 불러오기
     
+    //data
+    @Query(sort: \Learner.name) var learners: [Learner] //영구 저장된 도감 불러오기
     @Query(filter: #Predicate<Learner> { $0.isMe == true }) private var myProfile: [Learner]
+    
+    //multipeer
     @State private var multipeerService: MultipeerService?
+    @State private var showExchange = false
+    
+    //검색
+    @State private var searchText = ""
+    @State private var isSearchFieldPresented = false
     
     var unlockedCount: Int {
         learners.filter{ $0.isUnlocked }.count
     }
     
     var body: some View {
-        VStack {
-            Text("Learndex")
-                .font(.largeTitle)
-                .bold()
-            
-            SessionPickerView(selectedFilter: $selectedFilter)
-            
-
-            HStack {
-                ProgressView(value: Double(unlockedCount), total: Double(learners.count))
-                    .progressViewStyle(.linear)
-                    .padding(5)
-                    .scaleEffect(x: 1, y: 2, anchor: .center)
-                    .tint(.indigo)
-                Text("\(unlockedCount) / \(learners.count)")
-                    .font(.body)
-                    .bold(true)
-            }
-            
-            LearnerGridView(selectedSession: $selectedFilter)
-            
-            
-        }
-        .padding()
-//        .onAppear{
-//            checkAndInsertData()
-//        }
-        .ignoresSafeArea(edges: .bottom)
-        .onAppear {
-                    // '나'의 닉네임을 가져와서 서비스를 시작
-                    if let me = myProfile.first, multipeerService == nil {
-                        let service = MultipeerService(nickname: me.nickname)
-                        service.modelContext = modelContext // DB 연동
-                        service.start()
-                        multipeerService = service
+        NavigationStack {
+            VStack {
+                HStack {
+                    Text("Learndex")
+                        .font(.largeTitle)
+                        .bold()
+                    
+                    Spacer() // 글자를 왼쪽으로, 아이콘을 오른쪽으로 밉니다.
+                    
+                    Button {
+                        showExchange = true
+                    } label: {
+                        Image(systemName: "antenna.radiowaves.left.and.right")
+                            .font(.title2)
+                            .foregroundStyle(.indigo)
                     }
                 }
-                .onDisappear {
-                    multipeerService?.stop()
+                .padding(.top, 10)
+                
+                SessionPickerView(selectedFilter: $selectedFilter)
+                
+                
+                HStack {
+                    ProgressView(value: Double(unlockedCount), total: Double(learners.count))
+                        .progressViewStyle(.linear)
+                        .padding(5)
+                        .scaleEffect(x: 1, y: 2, anchor: .center)
+                        .tint(.indigo)
+                    Text("\(unlockedCount) / \(learners.count)")
+                        .font(.body)
+                        .bold(true)
+                }
+                
+                LearnerGridView(selectedSession: $selectedFilter)
+                
+                
+            }
+            .padding()
+            .ignoresSafeArea(edges: .bottom)
+            
+            .onDisappear {
+                multipeerService?.stop()
+            }
+            
+            .sheet(isPresented: $showExchange) {
+                if let service = multipeerService {
+                    NearbyPeersView(service: service)
+                        .presentationDetents([.medium])
                 }
             }
+            
+            .onAppear {
+                // '나'의 닉네임을 가져와서 서비스를 시작
+                if let me = myProfile.first, multipeerService == nil {
+                    let service = MultipeerService(nickname: me.nickname)
+                    service.modelContext = modelContext // DB 연동
+                    service.start()
+                    multipeerService = service
+                }
+            }
+        }
     }
-    
+}
+
 
 
 #Preview {
@@ -71,13 +100,33 @@ struct MainTabView: View {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Learner.self, configurations: config)
     
-    // 2. 프리뷰에서 '잠금 해제'된 모습을 테스트하고 싶다면 데이터를 직접 넣어줍니다.
-    let sample = Learner(nickname: "Ahae", name: "조민지", session: .morning,
-                         imageName: "character1", introDetail: "...",
-                         strengths: [], interests: [])
-    sample.isUnlocked = true // 프리뷰에서 진행도가 올라간 걸 확인하기 위해!
+    // 2. '나'에 해당하는 샘플 데이터 생성
+    let me = Learner(
+        nickname: "Ahae",
+        name: "조민지",
+        isMe: true,
+        session: .morning,
+        imageName: "character1",
+        introDetail: "반가워요!",
+        strengths: ["Swift"],
+        interests: ["SwiftUI"]
+    )
+    me.isUnlocked = true
     
-    container.mainContext.insert(sample)
+    // 3. 비교를 위한 다른 러너 데이터도 하나 넣어볼까요?
+    let other = Learner(
+        nickname: "Myong",
+        name: "김묭",
+        isMe: false,
+        session: .afternoon,
+        imageName: "character2",
+        introDetail: "안녕!",
+        strengths: [], interests: []
+    )
+    
+    // 컨테이너에 데이터 삽입
+    container.mainContext.insert(me)
+    container.mainContext.insert(other)
     
     return MainTabView()
         .modelContainer(container)

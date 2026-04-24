@@ -37,7 +37,7 @@ struct ContentView: View {
                 modelContext.insert(learner)
             }
             try? modelContext.save()
-            print("✅ 데이터 주입 완료!")
+            print("데이터 주입 완료!")
         }
     }
 }
@@ -49,7 +49,10 @@ struct ContentView: View {
     
     // 2. (선택사항) 만약 '이미 로그인된 상태'를 보고 싶다면 여기서 '나'를 추가하면 됩니다.
     // let me = Learner(nickname: "Minji", isMe: true ...)
-    // container.mainContext.insert(me)
+    let sample = Learner(nickname: "Ahae", name: "조민지", isMe: true, session: .morning,
+                         imageName: "character1", introDetail: "...",
+                         strengths: [], interests: [])
+     container.mainContext.insert(sample)
     
     return ContentView()
         .modelContainer(container)

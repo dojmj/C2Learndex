@@ -23,7 +23,7 @@ class SampleData {
         
         do {
             modelContainer = try ModelContainer(for: schema, configurations: [config])
-            getInitialLearners()
+//            getInitialLearners()
         } catch {
             fatalError("Could not create ModelContainer: \(error)")
         }
@@ -243,7 +243,7 @@ class SampleData {
                 imageName: "character2",
                 intro: "다양한 분야를 찍먹해본 묭입니다.",
                 introDetail: "디자인과 기획을 거쳐 현재는 컴퓨터공학도로서 개발 역량을 다지고 있습니다.",
-                strengths: ["프론트엔드", "모바일", "UI/UX 디자인"],
+                strengths: ["프론트엔드", "모바일", "UI/UX 디자인", "정소민"],
                 interests: ["Swift", "VisionOS", "바이브코딩"]
             ),
             Learner(
@@ -761,7 +761,7 @@ class SampleData {
                 imageName: "character6",
                 intro: "부족한 점이 많지만 같이 성장해요.",
                 introDetail: "iOS 개발자로서의 역량을 키우기 위해 모바일 환경과 문제 정의에 집중하고 있습니다.",
-                strengths: ["모바일", "문제 정의"],
+                strengths: ["모바일", "문제 정의", "곽동연"],
                 interests: ["iOS", "VisionOS", "SwiftUI", "macOS"]
             ),
             Learner(
@@ -1423,9 +1423,9 @@ class SampleData {
             Learner(
                 nickname: "Bino", name: "김의빈", session: .morning,
                 imageName: "character7",
-                intro: "직접 물어봐 주시면 알려드리는 비노입니다.",
+                intro: "직접 물어봐 주시면 알려드리는 빈지노 닮은 비노입니다.",
                 introDetail: "모바일 기획과 바이브 코딩에 강점이 있으며 VisionOS와 AR/VR 환경에 깊은 관심을 가지고 있습니다.",
-                strengths: ["모바일", "기획", "바이브 코딩"],
+                strengths: ["모바일", "기획", "바이브 코딩", "빈지노"],
                 interests: ["VisionOS", "AR", "VR"]
             ),
             Learner(
@@ -1437,9 +1437,9 @@ class SampleData {
                 interests: ["Figma", "디자인", "기획", "Marketing"]
             ),
             Learner(
-                nickname: "Norton6", name: "이환훈", session: .morning,
-                imageName: "character",
-                intro: "사회 문제를 기술과 디자인으로 푸는 노튼입니다😊",
+                nickname: "Norton", name: "이환훈", session: .morning,
+                imageName: "character6",
+                intro: "사회 문제를 기술과 디자인으로 푸는 노튼입니다😊 노션이라고 부르셔도 돼요.",
                 introDetail: "산업공학 배경의 데이터 사이언티스트로, iOS의 직관적인 경험 설계에 매료되어 시스템적 해결책을 설계하러 왔습니다.",
                 strengths: ["데이터 사이언스", "UI/UX 디자인", "HCI"],
                 interests: ["Swift", "Python", "ML", "Figma"]
@@ -1505,10 +1505,10 @@ class SampleData {
             Learner(
                 nickname: "Sejin", name: "상세진", session: .mentor,
                 imageName: "mentor1",
-                intro: "무엇이든 물어보세요!",
+                intro: "기기관리, 장비관리 담당 세진입니다!",
                 introDetail: "",
-                strengths: ["멘토링", "운영"],
-                interests: []
+                strengths: ["기기관리", "장비관리", "인간적인 소통"],
+                interests: ["꽃게", "필름카메라", "축구"]
             ),
             Learner(
                 nickname: "Soo", name: "박수연", session: .mentor,
@@ -1641,15 +1641,15 @@ class SampleData {
             Learner(
                 nickname: "Jett", name: "최진욱", session: .mentor,
                 imageName: "mentor1",
-                intro: "멘토 Jett입니다.",
+                intro: "PM Jett입니다.",
                 introDetail: "",
-                strengths: ["테크", "운영"],
+                strengths: ["PM", "운영"],
                 interests: []
             ),
             Learner(
                 nickname: "Senny", name: "오세빈", session: .mentor,
                 imageName: "mentor2",
-                intro: "멘토 Senny입니다.",
+                intro: "디자인 멘토 Senny입니다.",
                 introDetail: "",
                 strengths: ["운영", "지원"],
                 interests: []

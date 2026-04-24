@@ -14,16 +14,16 @@ struct NearbyPeersView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
-            // 상단 타이틀 및 상태
             HStack {
                 Image(systemName: "antenna.radiowaves.left.and.right")
                     .foregroundStyle(.indigo)
                     .symbolEffect(.variableColor.iterative, isActive: service.availablePeers.isEmpty)
                 
                 Text(service.availablePeers.isEmpty ? "Searching for Learners..." : "Nearby Learners")
-                    .font(.system(.subheadline, design: .rounded))
+                    .font(.system(.headline, design: .rounded))
                     .bold()
                     .foregroundStyle(.secondary)
+                    .padding(.vertical, 10)
             }
             .padding(.horizontal)
 
@@ -40,7 +40,7 @@ struct NearbyPeersView: View {
                         
                         Circle()
                             .fill(.indigo)
-                            .frame(width: 10, height: 10)
+                            .frame(width: 15, height: 15)
                     }
                     .onAppear {
                         withAnimation(.easeInOut(duration: 1.5).repeatForever(autoreverses: false)) {
@@ -49,9 +49,8 @@ struct NearbyPeersView: View {
                     }
                     Spacer()
                 }
-                .frame(height: 80)
+                .frame(height: 330)
             } else {
-                // 🚩 에어드랍 스타일 가로 스크롤 리스트
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 25) {
                         ForEach(service.availablePeers, id: \.self) { peer in
@@ -82,28 +81,25 @@ struct NearbyPeersView: View {
                                         .font(.caption)
                                         .fontWeight(.medium)
                                         .foregroundStyle(.primary)
+                                    
+                                    Spacer()
                                 }
                             }
                             .transition(.scale.combined(with: .opacity))
                         }
                     }
+                    .frame(height: 330)
                     .padding(.horizontal, 20)
                     .padding(.bottom, 10)
                 }
             }
         }
         .padding(.vertical)
-        .background(
-            RoundedRectangle(cornerRadius: 24)
-                .fill(Color(.systemGray6).opacity(0.5))
-                .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 5)
-        )
         .padding(.horizontal)
     }
 }
 
 #Preview("NearbyPeersView - 상태별 확인") {
-    // 🚩 @Bindable을 위해 상태를 가질 수 있는 임시 뷰를 정의합니다.
     struct PreviewWrapper: View {
         @State var emptyService = MultipeerService(nickname: "Ahae")
         @State var mockService: MultipeerService = {

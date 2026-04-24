@@ -25,8 +25,8 @@ class MultipeerService: NSObject {
         let peer = MCPeerID(displayName: nickname)
         self.myPeerID = peer
         self.session = MCSession(peer: peer, securityIdentity: nil, encryptionPreference: .required)
-        self.serviceAdvertiser = MCNearbyServiceAdvertiser(peer: peer, discoveryInfo: nil, serviceType: serviceType)
-        self.serviceBrowser = MCNearbyServiceBrowser(peer: peer, serviceType: serviceType)
+        self.serviceAdvertiser = MCNearbyServiceAdvertiser(peer: peer, discoveryInfo: nil, serviceType: "learndex")
+        self.serviceBrowser = MCNearbyServiceBrowser(peer: peer, serviceType: "learndex")
         
         super.init()
         
@@ -72,7 +72,6 @@ extension MultipeerService: MCSessionDelegate, MCNearbyServiceAdvertiserDelegate
                 self.availablePeers.append(peerID)
             }
         }
-        // 🚩 여기서 browser.invitePeer를 지웠습니다! (자동 초대 방지)
     }
 
     // 2. 브라우저: 사람이 사라졌을 때
@@ -103,13 +102,24 @@ extension MultipeerService: MCSessionDelegate, MCNearbyServiceAdvertiserDelegate
     }
 
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
-        DispatchQueue.main.async {
-            self.connectedPeers = session.connectedPeers
-            if state == .connected {
-                self.sendMyNickname()
+        if state == .connected {
+                DispatchQueue.main.sync {
+                    let peerName = peerID.displayName
+                    
+                    // 1. 전체 러너 중 닉네임이 일치하는 사람 찾기
+                    let fetchDescriptor = FetchDescriptor<Learner>(
+                        predicate: #Predicate { $0.nickname == peerName }
+                    )
+                    
+                    if let targetLearner = try? modelContext?.fetch(fetchDescriptor).first {
+                        targetLearner.isUnlocked = true
+                        print("\(peerName)님의 카드 잠금 해제 완료!")
+                        
+                        HapticManager.instance.notification(type: .success)
+                    }
+                }
             }
         }
-    }
 
     // 필수 메서드들
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {}
